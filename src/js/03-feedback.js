@@ -3,12 +3,14 @@ const throttle = require('lodash.throttle');
 const form = document.querySelector('.feedback-form');
 const LOCALSTORAGE_KEY = 'feedback-form-state';
 
-localStorage.setItem(
-  LOCALSTORAGE_KEY,
-  JSON.stringify({ email: '', message: '' })
-);
+if (!localStorage.getItem(LOCALSTORAGE_KEY)) {
+  localStorage.setItem(
+    LOCALSTORAGE_KEY,
+    JSON.stringify({ email: '', message: '' })
+  );
+}
 
-form.addEventListener('keydown', throttle(saveForm, 500));
+form.addEventListener('input', throttle(saveForm, 500));
 
 const { email, message } = JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY));
 
